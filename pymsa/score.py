@@ -21,18 +21,23 @@ class Score:
         pass
 
     def compute(self, sequences: list) -> float:
-        """ Compute the score 
-        
-        :param sequences: list of sequences (as strings)
-        :return: the value of the score
+        """ Compute the score.
+        :param sequences: List of sequences (as strings).
+        :return: Value of the score.
         """
+        if not all(len(sequence) == len(sequences[0]) for sequence in sequences):
+            raise Exception("All the sequences in the MSA must be aligned!")
+
+        return self._compute(sequences)
+
+    def _compute(self, sequences: list) -> float:
         pass
 
-    def get_score_of_two_chars(self, substitution_matrix: SubstitutionMatrix, char_a: str, char_b: str) -> int:
+    def _get_score_of_two_chars(self, substitution_matrix: SubstitutionMatrix, char_a: str, char_b: str) -> int:
         """ Return the score of two chars using the substituion matrix.
         :param substitution_matrix: Matrix of scores such as PAM250, Blosum62, etc.
-        :param charA: First char.
-        :param charB: Second char.
+        :param char_a: First char.
+        :param char_b: Second char.
         :return: Value of the score.
         """
         return int(substitution_matrix.get_distance(char_a, char_b))
@@ -40,12 +45,10 @@ class Score:
     def get_name(self) -> str:
         return type(self).__name__
 
-    def _raiser(self, e): raise Exception(e)
-
 
 class Entropy(Score):
 
-    def compute(self, sequences: list) -> float:
+    def _compute(self, sequences: list) -> float:
         length_of_sequence = len(sequences[0])
         column = []
         final_score = 0
@@ -105,7 +108,7 @@ class Star(Score):
         most_frequent_char = Counter(column).most_common(1)[0][0]
 
         for char in column:
-            score_of_column += self.get_score_of_two_chars(self.substitution_matrix, most_frequent_char, char)
+            score_of_column += self._get_score_of_two_chars(self.substitution_matrix, most_frequent_char, char)
 
         logger.debug('Score of column: {0}'.format(score_of_column))
         return score_of_column
@@ -135,12 +138,12 @@ class SumOfPairs(Score):
         score_of_column = 0
 
         for char_a, char_b in self.possible_combinations(column):
-            score_of_column += self.get_score_of_two_chars(self.substitution_matrix, char_a, char_b)
+            score_of_column += self._get_score_of_two_chars(self.substitution_matrix, char_a, char_b)
 
         logger.debug('Score of column: {0}'.format(score_of_column))
         return score_of_column
 
-    def possible_combinations(self, column):
+    def possible_combinations(self, column) -> itertools.combinations:
         return itertools.combinations(column, 2)
 
 

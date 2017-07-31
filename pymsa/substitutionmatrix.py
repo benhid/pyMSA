@@ -1,40 +1,33 @@
 class SubstitutionMatrix:
     """ Class representing a substitution matrix, such as PAM250, Blosum62, etc.
-    
-    Requirements:
-    - The gap character is '-'
     """
+
+    _GAP_CHARACTER = '-'
 
     def __init__(self, gap_penalty=-8):
         self.gap_penalty = gap_penalty
 
-    def get_distance(self, char1, char2):
-        """ Returns the distance between two symbols
-        
-        :param char1: 
-        :param char2: 
+    def get_distance(self, char1, char2) -> int:
+        """ Returns the distance between two characters.
+        :param char1: First character.
+        :param char2: Second character.
         :return: the distance value
         """
 
-        if char1 is '-' and char2 is '-':
-            result = 1
-        elif char1 is '-' or char2 is '-':
-            result = self.gap_penalty
+        if char1 is self._GAP_CHARACTER and char2 is self._GAP_CHARACTER:
+            distance = 1
+        elif char1 is self._GAP_CHARACTER or char2 is self._GAP_CHARACTER:
+            distance = self.gap_penalty
         else:
             matrix = self.get_distance_matrix()
-            if (char1, char2) in matrix:
-                v = matrix[(char1, char2)]
-            else:
-                v = matrix[(char2, char1)]
+            distance = matrix[(char1, char2)] if (char1, char2) in matrix else matrix[(char2, char1)]
 
-            result = v
+        return distance
 
-        return result
-
-    def get_distance_matrix(self):
+    def get_distance_matrix(self) -> None:
         pass
 
-    def get_gap_penalty(self) -> float:
+    def get_gap_penalty(self) -> int:
         return self.gap_penalty
 
 
@@ -115,7 +108,7 @@ class PAM250(SubstitutionMatrix):
              ('B', 'F'): -4,
              ('F', 'L'): 2, ('X', 'Q'): -1, ('B', 'B'): 3}
 
-    def get_distance_matrix(self):
+    def get_distance_matrix(self) -> dict:
         return self.distance_matrix
 
 
@@ -176,5 +169,5 @@ class Blosum62(SubstitutionMatrix):
           ('B', 'R'): -1, ('B', 'N'): 3, ('F', 'D'): -3, ('X', 'Y'): -1, ('Z', 'R'): 0, ('F', 'H'): -1, ('B', 'F'): -3,
           ('F', 'L'): 0, ('X', 'Q'): -1, ('B', 'B'): 4}
 
-    def get_distance_matrix(self):
+    def get_distance_matrix(self) -> dict:
         return self.distance_matrix
