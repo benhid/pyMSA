@@ -19,6 +19,17 @@ class ScoreTestCases(unittest.TestCase):
         with self.assertRaises(Exception):
             Score().compute(sequences)
 
+    def test_should_print_class_name(self):
+        # setup
+        sumofpairs = SumOfPairs().get_name()
+        star = Star().get_name()
+        entropy = Entropy().get_name()
+
+        # check
+        self.assertEqual("SumOfPairs", sumofpairs)
+        self.assertEqual("Star", star)
+        self.assertEqual("Entropy", entropy)
+
 
 class SumOfPairsTestCases(unittest.TestCase):
     def setUp(self):
