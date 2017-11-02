@@ -22,12 +22,7 @@ class SubstitutionMatrix:
             result = self.gap_penalty
         else:
             matrix = self.get_distance_matrix()
-            if (char1, char2) in matrix:
-                v = matrix[(char1, char2)]
-            else:
-                v = matrix[(char2, char1)]
-
-            result = v
+            result = matrix[(char1, char2)] if (char1, char2) in matrix else matrix[(char2, char1)]
 
         return result
 

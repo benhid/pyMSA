@@ -16,7 +16,6 @@ class Score:
     - All the sequences in an msa must be aligned
     - The gap character is '-'
     """
-
     def __init__(self):
         pass
 
@@ -40,11 +39,11 @@ class Score:
     def get_name(self) -> str:
         return type(self).__name__
 
-    def _raiser(self, e): raise Exception(e)
+    def _raiser(self, e) -> Exception:
+        raise Exception(e)
 
 
 class Entropy(Score):
-
     def compute(self, sequences: list) -> float:
         length_of_sequence = len(sequences[0])
         column = []
@@ -65,7 +64,7 @@ class Entropy(Score):
         return dict(zip(words, word_freq))
 
     def get_column_entropy(self, column: dict) -> float:
-        """Calculates the Minimum Entropy for the current column. """
+        """ Calculates the Minimum Entropy for the current column. """
         current_entropy = 0
 
         for key, value in column.items():
@@ -76,7 +75,6 @@ class Entropy(Score):
 
 
 class Star(Score):
-
     def __init__(self, substitution_matrix: SubstitutionMatrix = PAM250()):
         super().__init__()
         self.substitution_matrix = substitution_matrix
@@ -100,7 +98,6 @@ class Star(Score):
         :param column: List of chars.
         :return: Score of two chars.
         """
-
         score_of_column = 0
         most_frequent_char = Counter(column).most_common(1)[0][0]
 
@@ -112,7 +109,6 @@ class Star(Score):
 
 
 class SumOfPairs(Score):
-
     def __init__(self, substitution_matrix: SubstitutionMatrix = PAM250()):
         super().__init__()
         self.substitution_matrix = substitution_matrix
@@ -145,7 +141,6 @@ class SumOfPairs(Score):
 
 
 class PercentageOfNonGaps(Score):
-
     def compute(self, sequences: list) -> float:
         length_of_sequence = len(sequences[0])
         no_of_gaps = 0
@@ -160,7 +155,6 @@ class PercentageOfNonGaps(Score):
 
 
 class PercentageOfTotallyConservedColumns(Score):
-
     def compute(self, sequences: list) -> float:
         length_sequence = len(sequences[0])
         no_of_conserved_columns = 0
