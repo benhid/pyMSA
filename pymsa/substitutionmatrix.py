@@ -2,10 +2,9 @@ class SubstitutionMatrix:
     """ Class representing a substitution matrix, such as PAM250, Blosum62, etc.
     """
 
-    _GAP_CHARACTER = '-'
-
-    def __init__(self, gap_penalty=-8):
+    def __init__(self, gap_penalty: int, gap_character: str):
         self.gap_penalty = gap_penalty
+        self.gap_character = gap_character
 
     def get_distance(self, char1, char2) -> int:
         """ Returns the distance between two characters.
@@ -14,21 +13,23 @@ class SubstitutionMatrix:
         :return: the distance value
         """
 
-        if char1 is self._GAP_CHARACTER and char2 is self._GAP_CHARACTER:
+        if char1 is self.gap_character and char2 is self.gap_character:
             distance = 1
-        elif char1 is self._GAP_CHARACTER or char2 is self._GAP_CHARACTER:
+        elif char1 is self.gap_character or char2 is self.gap_character:
             distance = self.gap_penalty
         else:
             matrix = self.get_distance_matrix()
-            distance = matrix[(char1, char2)] if (char1, char2) in matrix else matrix[(char2, char1)]
+
+            try:
+                distance = matrix[(char1, char2)] if (char1, char2) in matrix else matrix[(char2, char1)]
+            except KeyError:
+                print("The pair ({0},{1}) couldn't be found in the substitution matrix.".format(char1, char2))
+                raise
 
         return distance
 
     def get_distance_matrix(self) -> None:
         pass
-
-    def get_gap_penalty(self) -> int:
-        return self.gap_penalty
 
 
 class PAM250(SubstitutionMatrix):
@@ -37,8 +38,8 @@ class PAM250(SubstitutionMatrix):
     Reference: https://en.wikipedia.org/wiki/Point_accepted_mutation
     """
 
-    def __init__(self, gap_penalty=-8):
-        super(PAM250, self).__init__(gap_penalty)
+    def __init__(self, gap_penalty=-8, gap_character: str='-'):
+        super(PAM250, self).__init__(gap_penalty, gap_character)
         self.distance_matrix = \
             {('W', 'F'): 0, ('L', 'R'): -3, ('S', 'P'): 1, ('V', 'T'): 0, ('Q', 'Q'): 4, ('N', 'A'): 0, ('Z', 'Y'): -4,
              ('W', 'R'): 2, ('Q', 'A'): 0, ('S', 'D'): 0, ('H', 'H'): 6, ('S', 'H'): -1, ('H', 'D'): 1, ('L', 'N'): -3,
@@ -118,8 +119,8 @@ class Blosum62(SubstitutionMatrix):
     Reference: https://en.wikipedia.org/wiki/BLOSUM
     """
 
-    def __init__(self, gap_penalty=-8):
-        super(Blosum62, self).__init__(gap_penalty)
+    def __init__(self, gap_penalty=-8, gap_character: str='-'):
+        super(Blosum62, self).__init__(gap_penalty, gap_character)
         self.distance_matrix = \
          {('W', 'F'): 1, ('L', 'R'): -2, ('S', 'P'): -1, ('V', 'T'): 0, ('Q', 'Q'): 5, ('N', 'A'): -2, ('Z', 'Y'): -2,
           ('W', 'R'): -3, ('Q', 'A'): -1, ('S', 'D'): 0, ('H', 'H'): 8, ('S', 'H'): -1, ('H', 'D'): -1, ('L', 'N'): -3,

@@ -11,23 +11,23 @@ class SubstitutionMatrixTestCases(unittest.TestCase):
         print("tearDown: TEST ENDED")
 
     def test_should_default_gap_penalty_be_minus_eight(self):
-        matrix = SubstitutionMatrix()
+        matrix = SubstitutionMatrix(-8, '-')
 
-        self.assertEqual(-8, matrix.get_gap_penalty())
+        self.assertEqual(-8, matrix.gap_penalty)
 
     def test_should_constructor__modify_the_gap_penalty(self):
-        matrix = SubstitutionMatrix(-10)
+        matrix = SubstitutionMatrix(-10, '-')
 
-        self.assertEqual(-10, matrix.get_gap_penalty())
+        self.assertEqual(-10, matrix.gap_penalty)
 
     def test_should_get_distance_return_the_gap_penalty_if_a_char_is_a_gap(self):
-        matrix = SubstitutionMatrix()
+        matrix = SubstitutionMatrix(-8, '-')
 
-        self.assertEqual(matrix.get_gap_penalty(), matrix.get_distance('A', '-'))
-        self.assertEqual(matrix.get_gap_penalty(), matrix.get_distance('-', 'B'))
+        self.assertEqual(matrix.gap_penalty, matrix.get_distance('A', '-'))
+        self.assertEqual(matrix.gap_penalty, matrix.get_distance('-', 'B'))
 
     def test_should_get_distance_return_one_if_the_two_chars_are_gaps(self):
-        matrix = SubstitutionMatrix()
+        matrix = SubstitutionMatrix(-8, '-')
 
         self.assertEqual(1, matrix.get_distance('-', '-'))
 
@@ -42,18 +42,18 @@ class PAM250TestCases(unittest.TestCase):
     def test_should_default_gap_penalty_be_minus_eight(self):
         matrix = PAM250()
 
-        self.assertEqual(-8, matrix.get_gap_penalty())
+        self.assertEqual(-8, matrix.gap_penalty)
 
     def test_should_constructor__modify_the_gap_penalty(self):
         matrix = PAM250(-10)
 
-        self.assertEqual(-10, matrix.get_gap_penalty())
+        self.assertEqual(-10, matrix.gap_penalty)
 
     def test_should_get_distance_return_the_gap_penalty_if_a_char_is_a_gap(self):
         matrix = PAM250()
 
-        self.assertEqual(matrix.get_gap_penalty(), matrix.get_distance('A', '-'))
-        self.assertEqual(matrix.get_gap_penalty(), matrix.get_distance('-', 'B'))
+        self.assertEqual(matrix.gap_penalty, matrix.get_distance('A', '-'))
+        self.assertEqual(matrix.gap_penalty, matrix.get_distance('-', 'B'))
 
     def test_should_get_distance_return_one_if_the_two_chars_are_gaps(self):
         matrix = PAM250()
@@ -86,18 +86,18 @@ class Blosum62TestCases(unittest.TestCase):
     def test_should_default_gap_penalty_be_minus_eight(self):
         matrix = Blosum62()
 
-        self.assertEqual(-8, matrix.get_gap_penalty())
+        self.assertEqual(-8, matrix.gap_penalty)
 
     def test_should_constructor__modify_the_gap_penalty(self):
         matrix = Blosum62(-10)
 
-        self.assertEqual(-10, matrix.get_gap_penalty())
+        self.assertEqual(-10, matrix.gap_penalty)
 
     def test_should_get_distance_return_the_gap_penalty_if_a_char_is_a_gap(self):
         matrix = Blosum62()
 
-        self.assertEqual(matrix.get_gap_penalty(), matrix.get_distance('A', '-'))
-        self.assertEqual(matrix.get_gap_penalty(), matrix.get_distance('-', 'B'))
+        self.assertEqual(matrix.gap_penalty, matrix.get_distance('A', '-'))
+        self.assertEqual(matrix.gap_penalty, matrix.get_distance('-', 'B'))
 
     def test_should_get_distance_return_one_if_the_two_chars_are_gaps(self):
         matrix = Blosum62()
