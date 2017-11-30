@@ -79,12 +79,11 @@ class Entropy(Score):
 
 
 class Star(Score):
-
     def __init__(self, substitution_matrix: SubstitutionMatrix = PAM250()):
         super().__init__()
         self.substitution_matrix = substitution_matrix
 
-    def compute(self, sequences: list) -> int:
+    def _compute(self, sequences: list) -> int:
         length_of_sequence = len(sequences[0])
         column = []
         final_score = 0
@@ -120,7 +119,7 @@ class SumOfPairs(Score):
         super().__init__()
         self.substitution_matrix = substitution_matrix
 
-    def compute(self, sequences: list) -> int:
+    def _compute(self, sequences: list) -> int:
         length_of_sequence = len(sequences[0])
         column = []
         final_score = 0
@@ -149,7 +148,7 @@ class SumOfPairs(Score):
 
 class PercentageOfNonGaps(Score):
 
-    def compute(self, sequences: list) -> float:
+    def _compute(self, sequences: list) -> float:
         length_of_sequence = len(sequences[0])
         no_of_gaps = 0
 
@@ -164,7 +163,7 @@ class PercentageOfNonGaps(Score):
 
 class PercentageOfTotallyConservedColumns(Score):
 
-    def compute(self, sequences: list) -> float:
+    def _compute(self, sequences: list) -> float:
         length_sequence = len(sequences[0])
         no_of_conserved_columns = 0
         column = []
