@@ -41,7 +41,7 @@ $ pip install -r requirements.txt
 ```
 
 ## Usage
-An example of running all the included scores is located in the [`scoringExample`](pymsa/scoringExample.py) file.
+An example of running all the included scores is located in the [`scoringExample`](pymsa/scoringExample.py) and [`Jupyter notebook`](pymsa/runner.ipynb) files.
 
 ## Authors
 ### Active development team

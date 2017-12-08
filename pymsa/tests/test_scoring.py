@@ -1,7 +1,34 @@
 import unittest
 
 from pymsa.substitutionmatrix import PAM250, Blosum62
-from pymsa.score import SumOfPairs, Star, Entropy, PercentageOfTotallyConservedColumns, PercentageOfNonGaps
+from pymsa.score import Score, SumOfPairs, Star, Entropy, PercentageOfTotallyConservedColumns, PercentageOfNonGaps
+
+
+class ScoreTestCases(unittest.TestCase):
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test_should_raise_exception_if_sequences_have_different_lengths(self):
+        # setup
+        sequences = ['AA', 'A', 'AA']
+
+        # check
+        with self.assertRaises(Exception):
+            Score().compute(sequences)
+
+    def test_should_print_class_name(self):
+        # setup
+        sumofpairs = SumOfPairs().get_name()
+        star = Star().get_name()
+        entropy = Entropy().get_name()
+
+        # check
+        self.assertEqual("SumOfPairs", sumofpairs)
+        self.assertEqual("Star", star)
+        self.assertEqual("Entropy", entropy)
 
 
 class SumOfPairsTestCases(unittest.TestCase):
@@ -74,6 +101,7 @@ class SumOfPairsTestCases(unittest.TestCase):
              '------MQDRVKRPMNAFIVWSRDQRRKMALENPRMR-NS-EISKQLGYQWKMLTEAEKWPFFQEAQKLQAMHREKYPNYKYRP---RRKAKMLPK',
              'MKKLKKHPDFPKKPLTPYFRFFMEKRAKYAKLHPEMS-NL-DLTKILSKKYKELPEKKKMKYIQDFQREKQEFERNLARFREDH---PDLIQNAKK',
              '--------MHIKKPLNAFMLYMKEMRANVVAES-TLK-ESAAINQILGRRWHALSREEQAKYYELARKERQLHMQLYPGWSARDNYGKKKKRKREK']
+
         # results
         result = self.sumofpairs_PAM250.compute(sequences)
         expected = 24
@@ -101,18 +129,6 @@ class StarTestCases(unittest.TestCase):
         # check
         self.assertEqual(expected, result)
 
-    def test_most_frequent_error_with_BLOSUM62(self):
-        # setup
-        sequences = ['AA', 'AC', 'AC']
-
-        # results
-        result = self.star_Blosum62.compute(sequences)
-        expected = 22
-
-        # check
-        with self.assertRaises(Exception):
-            self.assertEqual(expected, result)
-
     def test_most_frequent_with_PAM250(self):
         # setup
         sequences = ['AA', 'AC', 'AC']
@@ -123,18 +139,6 @@ class StarTestCases(unittest.TestCase):
 
         # check
         self.assertEqual(expected, result)
-
-    def test_most_frequent_error_with_PAM250(self):
-        # setup
-        sequences = ['AA', 'AC', 'AC']
-
-        # results
-        result = self.star_PAM250.compute(sequences)
-        expected = 22
-
-        # check
-        with self.assertRaises(Exception):
-            self.assertEqual(expected, result)
 
     def test_most_frequent_gaps_with_PAM250(self):
         # setup

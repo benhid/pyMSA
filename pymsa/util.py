@@ -1,4 +1,4 @@
-def read_fasta_file_as_list_of_pairs(directory: str, file_name: str) -> list:
+def read_fasta_file_as_list_of_pairs(file_name: str, directory: str='./') -> list:
     list_of_pairs = []
     key = ''
     value = ''
