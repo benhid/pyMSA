@@ -16,11 +16,3 @@ def read_fasta_file_as_list_of_pairs(file_name: str, directory: str='./') -> lis
     file.close()
 
     return list_of_pairs
-
-
-def save_fasta_serialized(directory: str, file_name: str) -> None:
-    with open(directory+file_name+"_serialized.txt", 'w') as output:
-        list = read_fasta_file_as_list_of_pairs(directory, file_name)
-
-        for (pair1, pair2) in list:
-            output.write(pair1 + ',' + pair2 + '\n')

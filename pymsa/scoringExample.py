@@ -53,6 +53,7 @@ def run_all_scores(msa: list) -> None:
     value = compute_score(score_method, sequences)
     logger.info("Star score (PAM250): {0}".format(value))
 
+
 if __name__ == '__main__':
     msa = [("s1", "ACTG"), ("S2", "A-T-")]
     run_all_scores(msa)

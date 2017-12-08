@@ -19,7 +19,6 @@ class SubstitutionMatrix:
             distance = self.gap_penalty
         else:
             matrix = self.get_distance_matrix()
-
             try:
                 distance = matrix[(char1, char2)] if (char1, char2) in matrix else matrix[(char2, char1)]
             except KeyError:
