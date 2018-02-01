@@ -31,12 +31,22 @@ class SubstitutionMatrix:
         pass
 
 
+class FileMatrix(SubstitutionMatrix):
+    def __init__(self, path_to_file: str, gap_penalty: int =-8, gap_character: str='-'):
+        super(FileMatrix, self).__init__(gap_penalty, gap_character)
+        self.distance_matrix = self.read_matrix_from_file(path_to_file)
+
+    def read_matrix_from_file(self, path_to_file: str) -> dict:
+        pass
+
+    def get_distance_matrix(self) -> dict:
+        return self.distance_matrix
+
+
 class PAM250(SubstitutionMatrix):
     """ Class implementing the PAM250 substitution matrix
-
     Reference: https://en.wikipedia.org/wiki/Point_accepted_mutation
     """
-
     def __init__(self, gap_penalty=-8, gap_character: str='-'):
         super(PAM250, self).__init__(gap_penalty, gap_character)
         self.distance_matrix = \
@@ -114,10 +124,8 @@ class PAM250(SubstitutionMatrix):
 
 class Blosum62(SubstitutionMatrix):
     """ Class implementing the Blosum62 substitution matrix
-
     Reference: https://en.wikipedia.org/wiki/BLOSUM
     """
-
     def __init__(self, gap_penalty=-8, gap_character: str='-'):
         super(Blosum62, self).__init__(gap_penalty, gap_character)
         self.distance_matrix = \

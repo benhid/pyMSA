@@ -1,6 +1,6 @@
 <p align="center">
   <br/>
-  <img src="https://raw.githubusercontent.com/benhid/pyMSA/master/resources/pymsa.png" alt="PyMSA">
+  <img src=resources/pymsa.png alt="PyMSA">
   <br/>
 </p>
 
@@ -17,8 +17,9 @@ The scores that are currently available are:
 * Sum of pairs,
 * Star,
 * Minimum entropy,
-* Percentage of non-gaps *and*
-* Percentage of totally conserved columns.
+* Percentage of non-gaps,
+* Percentage of totally conserved columns *and*
+* [STRIKE](http://www.tcoffee.org/Projects/strike/) (*S*ingle s*TR*ucture *I*nduced *E*valuation).
 
 ## Downloading
 To download PyMSA just clone the Git repository hosted in GitHub:
@@ -41,7 +42,7 @@ $ pip install -r requirements.txt
 ```
 
 ## Usage
-An example of running all the included scores is located in the [`scoringExample`](pymsa/scoringExample.py) and [`Jupyter notebook`](pymsa/runner.ipynb) files.
+An example of running all the included scores is located in the [`example`](example/) folder.
 
 ## Authors
 ### Active development team

@@ -1,6 +1,6 @@
 import unittest
 
-from pymsa.substitutionmatrix import SubstitutionMatrix, PAM250, Blosum62
+from pymsa.core.substitutionmatrix import SubstitutionMatrix, PAM250, Blosum62
 
 
 class SubstitutionMatrixTestCases(unittest.TestCase):

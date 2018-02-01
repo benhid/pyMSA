@@ -1,7 +1,7 @@
 import unittest
 
-from pymsa.substitutionmatrix import PAM250, Blosum62
-from pymsa.score import Score, SumOfPairs, Star, Entropy, PercentageOfTotallyConservedColumns, PercentageOfNonGaps
+from pymsa.core.substitutionmatrix import PAM250, Blosum62
+from pymsa.core import Score, SumOfPairs, Star, Entropy, PercentageOfTotallyConservedColumns, PercentageOfNonGaps
 
 
 class ScoreTestCases(unittest.TestCase):
