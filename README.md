@@ -19,7 +19,7 @@ The scores that are currently available are:
 * Minimum entropy,
 * Percentage of non-gaps,
 * Percentage of totally conserved columns *and*
-* [STRIKE](http://www.tcoffee.org/Projects/strike/) (*S*ingle s*TR*ucture *I*nduced *E*valuation).
+* STRIKE (**S**ingle s**TR**ucture **I**nduced **E**valuation).
 
 ## Downloading
 To download PyMSA just clone the Git repository hosted in GitHub:
@@ -39,6 +39,16 @@ PyMSA has been developed with Python 3.6.0 :: [Anaconda](https://www.continuum.i
 To install all dependencies use:
 ```bash
 $ pip install -r requirements.txt
+```
+
+### STRIKE score
+For computing the [STRIKE](http://www.tcoffee.org/Projects/strike/) score, 
+the program must be installed on the `usr/local/bin` folder.
+
+e.g. After compiling run:
+
+```bash
+$ sudo cp bin/strike /usr/local/bin
 ```
 
 ## Usage
