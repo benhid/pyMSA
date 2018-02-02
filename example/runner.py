@@ -1,25 +1,11 @@
 import logging
 
-from pymsa.core.score import Score, Entropy, PercentageOfNonGaps, PercentageOfTotallyConservedColumns, Star, \
+from pymsa.core.score import Entropy, PercentageOfNonGaps, PercentageOfTotallyConservedColumns, Star, \
     SumOfPairs, Strike
 from pymsa.core.substitutionmatrix import PAM250, Blosum62
 
-"""
-This program is intended to show some examples of using the scores in pyMSA
-"""
-
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-
-def compute_score(score: Score, sequences: list) -> float:
-    """ This function applies an core to a multiple sequence alignment
-    :param score: Score method
-    :param sequences: List of sequences
-    :return: The core value
-    """
-    return score.compute(sequences)
 
 
 def run_all_scores(msa: list) -> None:
@@ -36,31 +22,28 @@ def run_all_scores(msa: list) -> None:
     logger.info("Percentage of totally conserved columns: {0}".format(conserved))
 
     # Entropy
-    score_method = Entropy()
-    value = compute_score(score_method, align_sequences)
-    logger.info("Entropy core: {0}".format(value))
+    value = Entropy().compute(align_sequences=align_sequences)
+    logger.info("Entropy score: {0}".format(value))
 
     # Sum of pairs
-    score_method = SumOfPairs(Blosum62())
-    value = compute_score(score_method, align_sequences)
-    logger.info("SumOfPairs core (Blosum62): {0}".format(value))
+    value = SumOfPairs(Blosum62()).compute(align_sequences=align_sequences)
+    logger.info("SumOfPairs score (Blosum62): {0}".format(value))
 
-    score_method = SumOfPairs(PAM250())
-    value = compute_score(score_method, align_sequences)
-    logger.info("{0} core (PAM250): {1}".format(score_method.get_name(), value))
+    value = SumOfPairs(PAM250()).compute(align_sequences=align_sequences)
+    logger.info("SumOfPairs score (PAM250): {0}".format(value))
 
     # Star
-    score_method = Star(Blosum62())
-    value = compute_score(score_method, align_sequences)
-    logger.info("Star core (Blosum62): {0}".format(value))
+    value = Star(Blosum62()).compute(align_sequences=align_sequences)
+    logger.info("Star score (Blosum62): {0}".format(value))
 
-    score_method = Star(PAM250())
-    value = compute_score(score_method, align_sequences)
-    logger.info("Star core (PAM250): {0}".format(value))
+    value = Star(PAM250()).compute(align_sequences=align_sequences)
+    logger.info("Star score (PAM250): {0}".format(value))
 
     # STRIKE
-    value = Strike().compute(align_sequences, sequences_id, ['A', 'E', 'A', 'A'])
-    logger.info("STRIKE core: {0}".format(value))
+    value = Strike().compute(align_sequences=align_sequences,
+                             sequences_id=sequences_id,
+                             chains=['A', 'E', 'A', 'A'])
+    logger.info("STRIKE score: {0}".format(value))
 
 
 if __name__ == '__main__':
