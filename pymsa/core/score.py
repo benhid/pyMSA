@@ -11,6 +11,7 @@ from pathlib import Path
 import urllib.request
 
 from pymsa.core.substitution_matrix import SubstitutionMatrix, PAM250
+from pymsa.util.tool import StrikeEx
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -43,7 +44,8 @@ class Score:
         """
         return int(substitution_matrix.get_distance(char_a, char_b))
 
-    def is_minimization(self) -> bool:
+    @staticmethod
+    def is_minimization() -> bool:
         pass
 
     def get_name(self) -> str:
@@ -81,7 +83,8 @@ class Entropy(Score):
 
         return current_entropy
 
-    def is_minimization(self) -> bool:
+    @staticmethod
+    def is_minimization() -> bool:
         return False
 
 
@@ -119,7 +122,8 @@ class Star(Score):
         logger.debug('Score of column: {0}'.format(score_of_column))
         return score_of_column
 
-    def is_minimization(self) -> bool:
+    @staticmethod
+    def is_minimization() -> bool:
         return False
 
 
@@ -155,7 +159,8 @@ class SumOfPairs(Score):
     def possible_combinations(self, column) -> itertools.combinations:
         return itertools.combinations(column, 2)
 
-    def is_minimization(self) -> bool:
+    @staticmethod
+    def is_minimization() -> bool:
         return False
 
 
@@ -173,7 +178,8 @@ class PercentageOfNonGaps(Score):
 
         return 100 - (no_of_gaps / (length_of_sequence * len(align_sequences)) * 100)
 
-    def is_minimization(self) -> bool:
+    @staticmethod
+    def is_minimization() -> bool:
         return True
 
 
@@ -196,7 +202,8 @@ class PercentageOfTotallyConservedColumns(Score):
 
         return no_of_conserved_columns / length_sequence * 100
 
-    def is_minimization(self) -> bool:
+    @staticmethod
+    def is_minimization() -> bool:
         return False
 
 
@@ -220,11 +227,7 @@ class Strike:
                     c_file.writelines(sequences_id[i] + ' ./strike/' + sequences_id[i] + '.pdb ' + chains[i] + '\n')
                     a_file.writelines('>' + sequences_id[i] + '\n' + align_sequences[i] + '\n')
 
-        bytes = subprocess.check_output('strike -c ' + self.out_connection_path + ' -a ' + self.out_alignment_path,
-                                        shell=True, env=os.environ.copy())
-        score = "".join(map(chr, bytes)).split('\n')[-2]
-
-        return float(score)
+        return StrikeEx().run(parameters={'-c': self.out_connection_path, '-a': self.out_alignment_path})
 
     def get_pdb(self, pdb_id: str) -> str:
         base_url = 'https://files.rcsb.org/download/'
@@ -246,5 +249,6 @@ class Strike:
 
         return out_pdb_path
 
-    def is_minimization(self) -> bool:
+    @staticmethod
+    def is_minimization() -> bool:
         return False

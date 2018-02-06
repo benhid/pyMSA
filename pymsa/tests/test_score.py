@@ -6,10 +6,10 @@ from pymsa.core.score import Score, SumOfPairs, Star, Entropy, PercentageOfTotal
 
 class ScoreTestCases(unittest.TestCase):
     def setUp(self):
-        pass
+        print("setUp: RUNNING ScoreTestCases")
 
     def tearDown(self):
-        pass
+        print("tearDown: TEST ENDED")
 
     def test_should_raise_exception_if_sequences_have_different_lengths(self):
         # setup
@@ -33,11 +33,12 @@ class ScoreTestCases(unittest.TestCase):
 
 class SumOfPairsTestCases(unittest.TestCase):
     def setUp(self):
+        print("setUp: RUNNING SumOfPairsTestCases")
         self.sumofpairs_PAM250 = SumOfPairs(PAM250())
         self.sumofpairs_Blosum62 = SumOfPairs(Blosum62())
 
     def tearDown(self):
-        pass
+        print("tearDown: TEST ENDED")
 
     def test_basic_score_of_12_with_PAM250(self):
         # setup
@@ -112,11 +113,12 @@ class SumOfPairsTestCases(unittest.TestCase):
 
 class StarTestCases(unittest.TestCase):
     def setUp(self):
+        print("setUp: RUNNING StarTestCases")
         self.star_PAM250 = Star(PAM250())
         self.star_Blosum62 = Star(Blosum62())
 
     def tearDown(self):
-        pass
+        print("tearDown: TEST ENDED")
 
     def test_most_frequent_A_with_BLOSUM62(self):
         # setup
@@ -165,10 +167,11 @@ class StarTestCases(unittest.TestCase):
 
 class EntropyTestCases(unittest.TestCase):
     def setUp(self):
+        print("setUp: RUNNING EntropyTestCases")
         self.ent = Entropy()
 
     def tearDown(self):
-        pass
+        print("tearDown: TEST ENDED")
 
     def test_get_entropy_of_a_column_with_gaps(self):
         # setup
@@ -251,10 +254,11 @@ class EntropyTestCases(unittest.TestCase):
 
 class PercentageOfTotallyConservedColumnsTestCases(unittest.TestCase):
     def setUp(self):
+        print("setUp: RUNNING PercentageOfTotallyConservedColumnsTestCases")
         self.per = PercentageOfTotallyConservedColumns()
 
     def tearDown(self):
-        pass
+        print("tearDown: TEST ENDED")
 
     def test_percentage_of_totally_conserved_columns_100(self):
         # setup
@@ -292,10 +296,11 @@ class PercentageOfTotallyConservedColumnsTestCases(unittest.TestCase):
 
 class PercentageOfNonGapsTestCases(unittest.TestCase):
     def setUp(self):
+        print("setUp: RUNNING PercentageOfNonGapsTestCases")
         self.per = PercentageOfNonGaps()
 
     def tearDown(self):
-        pass
+        print("tearDown: TEST ENDED")
 
     def test_percentage_of_non_gaps_100(self):
         # setup

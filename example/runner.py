@@ -2,7 +2,7 @@ import logging
 
 from pymsa.core.score import Entropy, PercentageOfNonGaps, PercentageOfTotallyConservedColumns, Star, \
     SumOfPairs, Strike
-from pymsa.core.substitution_matrix import SubstitutionMatrix, PAM250, Blosum62, FileMatrix
+from pymsa.core.substitution_matrix import PAM250, Blosum62, FileMatrix
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
