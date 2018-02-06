@@ -9,7 +9,7 @@
 [![PyPI](https://img.shields.io/pypi/l/pyMSA.svg)]()
 [![PyPI](https://img.shields.io/pypi/v/pyMSA.svg)]()
 
-PyMSA is an open source software tool aimed at providing a number of scores for
+pyMSA is an open source software tool aimed at providing a number of scores for
 multiple sequence alignment (MSA) problems.
 
 ## Features
@@ -43,12 +43,28 @@ $ pip install -r requirements.txt
 
 ### STRIKE score
 For computing the [STRIKE](http://www.tcoffee.org/Projects/strike/) score, 
-the program must be installed on the `usr/local/bin` folder.
+the software must be installed on the `usr/local/bin` folder.
 
 e.g. After compiling run:
 
 ```bash
 $ sudo cp bin/strike /usr/local/bin
+```
+
+### Substitution matrices
+
+pyMSA has only two available substitution matrices: *PAM250*  and *Blosum62*.
+
+Other substitution matrices can be used by reading a matrix [file](ftp://ftp.ncbi.nih.gov/blast/matrices/) with `read_matrix_from_file()` (from `pymsa.util.substitution_matrix` module).
+
+`FileMatrix` implements this method by default:
+
+```python
+from pymsa.core.substitution_matrix import PAM250, Blosum62, FileMatrix
+
+pam250 = PAM250()
+blosum62 = Blosum62()
+pam380 = FileMatrix('PAM380.txt')
 ```
 
 ## Usage
