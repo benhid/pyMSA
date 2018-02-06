@@ -10,7 +10,7 @@ from collections import Counter
 from pathlib import Path
 import urllib.request
 
-from pymsa.core.substitutionmatrix import SubstitutionMatrix, PAM250
+from pymsa.core.substitution_matrix import SubstitutionMatrix, PAM250
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

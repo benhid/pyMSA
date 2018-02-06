@@ -1,6 +1,6 @@
 import unittest
 
-from pymsa.core.substitutionmatrix import PAM250, Blosum62
+from pymsa.core.substitution_matrix import PAM250, Blosum62
 from pymsa.core.score import Score, SumOfPairs, Star, Entropy, PercentageOfTotallyConservedColumns, PercentageOfNonGaps
 
 

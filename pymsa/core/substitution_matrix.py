@@ -1,4 +1,4 @@
-import re
+from pymsa.util.substitution_matrix import read_matrix_from_file
 
 
 class SubstitutionMatrix:
@@ -35,29 +35,16 @@ class SubstitutionMatrix:
 
 
 class FileMatrix(SubstitutionMatrix):
+    """ Read blast/matrix from file
+    Files can be found on: ftp://ftp.ncbi.nih.gov/blast/matrices/
+    """
+
     def __init__(self, path_to_file: str, gap_penalty: int = -8, gap_character: str = '-'):
         super(FileMatrix, self).__init__(gap_penalty, gap_character)
         self.distance_matrix = self.read_matrix_from_file(path_to_file)
 
     def read_matrix_from_file(self, path_to_file: str) -> dict:
-        distance_matrix = {}
-        header = ()
-
-        with open(path_to_file, 'r') as matrix:
-            for line in matrix.readlines():
-                if not line.startswith('#') and line.strip():
-                    # remove leading and trailing spaces and then replace consecutive whitespace characters
-                    tmp = re.sub("\s+", " ", line.strip()).split(" ")
-
-                    # if not header was specified, use the first line from the input file
-                    if line.startswith(' '):
-                        header = tmp
-                    else:
-                        for i in range(len(header)-1):
-                            if (tmp[0], header[i+1]) not in matrix and (header[i+1], tmp[0]) not in matrix:
-                                distance_matrix.update({(tmp[0], header[i]): int(tmp[i+1])})
-
-        return distance_matrix
+        return read_matrix_from_file(path_to_file)
 
     def get_distance_matrix(self) -> dict:
         return self.distance_matrix
