@@ -1,6 +1,6 @@
 import unittest
 
-from pymsa.core.substitutionmatrix import SubstitutionMatrix, PAM250, Blosum62
+from pymsa.core.substitutionmatrix import SubstitutionMatrix, FileMatrix, PAM250, Blosum62
 
 
 class SubstitutionMatrixTestCases(unittest.TestCase):
@@ -30,6 +30,29 @@ class SubstitutionMatrixTestCases(unittest.TestCase):
         matrix = SubstitutionMatrix(-8, '-')
 
         self.assertEqual(1, matrix.get_distance('-', '-'))
+
+
+class FileMatrixTestCases(unittest.TestCase):
+    def setUp(self):
+        print("setUp: RUNNING Blosum62TestCases")
+
+    def tearDown(self):
+        print("tearDown: TEST ENDED")
+
+    def test_should_default_gap_penalty_be_minus_eight(self):
+        matrix = FileMatrix(path_to_file='PAM380.txt')
+
+        self.assertEqual(matrix.gap_penalty, matrix.get_distance('A', '-'))
+        self.assertEqual(matrix.gap_penalty, matrix.get_distance('-', 'B'))
+
+    def test_should_get_distance_return_the_correct_values_if_there_are_no_gaps(self):
+        matrix = FileMatrix(path_to_file='PAM380.txt')
+
+        self.assertEqual(-1, matrix.get_distance('A', 'R'))
+        self.assertEqual(-1, matrix.get_distance('R', 'A'))
+        self.assertEqual(-3, matrix.get_distance('X', 'C'))
+        self.assertEqual(+4, matrix.get_distance('I', 'I'))
+        self.assertEqual(+4, matrix.get_distance('V', 'V'))
 
 
 class PAM250TestCases(unittest.TestCase):

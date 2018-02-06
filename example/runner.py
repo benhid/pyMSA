@@ -2,7 +2,7 @@ import logging
 
 from pymsa.core.score import Entropy, PercentageOfNonGaps, PercentageOfTotallyConservedColumns, Star, \
     SumOfPairs, Strike
-from pymsa.core.substitutionmatrix import PAM250, Blosum62
+from pymsa.core.substitutionmatrix import FileMatrix, PAM250, Blosum62
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -31,6 +31,9 @@ def run_all_scores(msa: list) -> None:
 
     value = SumOfPairs(PAM250()).compute(align_sequences=align_sequences)
     logger.info("SumOfPairs score (PAM250): {0}".format(value))
+
+    #value = SumOfPairs(FileMatrix('PAM380.txt')).compute(align_sequences=align_sequences)
+    #logger.info("SumOfPairs score (PAM380): {0}".format(value))
 
     # Star
     value = Star(Blosum62()).compute(align_sequences=align_sequences)
