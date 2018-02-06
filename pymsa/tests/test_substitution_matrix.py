@@ -6,7 +6,7 @@ from pymsa.core.substitution_matrix import SubstitutionMatrix, FileMatrix, PAM25
 
 class SubstitutionMatrixTestCases(unittest.TestCase):
     def setUp(self):
-        print("setUp: RUNNING SubstutionMatrixTestCases")
+        print("setUp: RUNNING SubstitutionMatrixTestCases")
 
     def tearDown(self):
         print("tearDown: TEST ENDED")
@@ -35,7 +35,7 @@ class SubstitutionMatrixTestCases(unittest.TestCase):
 
 class FileMatrixTestCases(unittest.TestCase):
     def setUp(self):
-        print("setUp: RUNNING Blosum62TestCases")
+        print("setUp: RUNNING FileMatrixTestCases")
 
     def tearDown(self):
         print("tearDown: TEST ENDED")
