@@ -28,13 +28,13 @@ $ git clone https://github.com/benhid/pyMSA.git
 $ python setup.py install
 ```
 
-Alternatively, you can install with pip:
+Alternatively, you can install with `pip`:
 ```bash
 $ pip install pyMSA
 ```
 
 ## Requirements
-PyMSA has been developed with Python 3.6.0 :: [Anaconda](https://www.continuum.io) 4.3.0 (x86_64).
+pyMSA has been developed with Python 3.6.0 :: [Anaconda](https://www.continuum.io) 4.3.0 (x86_64).
 
 To install all dependencies use:
 ```bash
@@ -43,7 +43,7 @@ $ pip install -r requirements.txt
 
 ### STRIKE score
 For computing the [STRIKE](http://www.tcoffee.org/Projects/strike/) score, 
-the software must be installed on the `usr/local/bin` folder.
+the package (v1.2) must be installed on the `usr/local/bin` folder.
 
 e.g. After compiling run:
 
