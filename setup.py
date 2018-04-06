@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pyMSA',
-    version='0.2.0',
+    version='0.2.1',
     description='Scoring Multiple Sequence Alignments with Python',
     url='https://github.com/benhid/pyMSA',
     author='Antonio Benitez, Antonio J. Nebro',
