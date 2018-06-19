@@ -5,11 +5,6 @@ from pymsa.core.substitution_matrix import SubstitutionMatrix, FileMatrix, PAM25
 
 
 class SubstitutionMatrixTestCases(unittest.TestCase):
-    def setUp(self):
-        print("setUp: RUNNING SubstitutionMatrixTestCases")
-
-    def tearDown(self):
-        print("tearDown: TEST ENDED")
 
     def test_should_default_gap_penalty_be_minus_eight(self):
         matrix = SubstitutionMatrix(-8, '-')
@@ -34,11 +29,6 @@ class SubstitutionMatrixTestCases(unittest.TestCase):
 
 
 class FileMatrixTestCases(unittest.TestCase):
-    def setUp(self):
-        print("setUp: RUNNING FileMatrixTestCases")
-
-    def tearDown(self):
-        print("tearDown: TEST ENDED")
 
     def test_should_default_gap_penalty_be_minus_eight(self):
         matrix = FileMatrix(path_to_file=os.path.dirname(__file__)+'/test_matrix.txt')
@@ -57,11 +47,6 @@ class FileMatrixTestCases(unittest.TestCase):
 
 
 class PAM250TestCases(unittest.TestCase):
-    def setUp(self):
-        print("setUp: RUNNING PAM250TestCases")
-
-    def tearDown(self):
-        print("tearDown: TEST ENDED")
 
     def test_should_default_gap_penalty_be_minus_eight(self):
         matrix = PAM250()
@@ -101,11 +86,6 @@ class PAM250TestCases(unittest.TestCase):
 
 
 class Blosum62TestCases(unittest.TestCase):
-    def setUp(self):
-        print("setUp: RUNNING Blosum62TestCases")
-
-    def tearDown(self):
-        print("tearDown: TEST ENDED")
 
     def test_should_default_gap_penalty_be_minus_eight(self):
         matrix = Blosum62()

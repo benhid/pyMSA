@@ -1,5 +1,4 @@
 import itertools
-import subprocess
 import logging
 import math
 import os
@@ -13,19 +12,16 @@ import urllib.request
 from pymsa.core.substitution_matrix import SubstitutionMatrix, PAM250
 from pymsa.util.tool import StrikeEx
 
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
 class Score:
 
-    def __init__(self):
-        pass
-
     def compute(self, align_sequences: list) -> float:
-        """ Compute the core.
-        :param align_sequences: List of sequences (as strings).
-        :return: Value of the core.
+        """ Compute the score.
+
+        :param align_sequences: List of sequences (as str).
+        :return: Value of the score.
         """
         if not all(len(sequence) == len(align_sequences[0]) for sequence in align_sequences):
             raise Exception("All the sequences in the FASTA file must be aligned!")
@@ -69,12 +65,15 @@ class Entropy(Score):
         return final_score
 
     def get_words_frequencies(self, words: list) -> dict:
-        """ Get dictionary of words frequencies of a list of words. """
+        """ Compute frecuencies of words inside a list.
+
+        :param words: List of words.
+        :return: Dictionary with computed frecuencies. """
         word_freq = [words.count(w) / len(words) for w in words]
         return dict(zip(words, word_freq))
 
     def get_column_entropy(self, column: dict) -> float:
-        """ Calculates the Minimum Entropy for the current column. """
+        """ Compute the Minimum Entropy for the current column. """
         current_entropy = 0
 
         for key, value in column.items():
@@ -108,7 +107,7 @@ class Star(Score):
         return final_score
 
     def get_score_of_k_column(self, column: list) -> int:
-        """ Compare the most frequent element of the list 'column' with the others only one time.
+        """ Compare the most frequent element of the column list with the others only one time.
 
         :param column: List of chars.
         :return: Score of two chars.
@@ -147,7 +146,11 @@ class SumOfPairs(Score):
         return final_score
 
     def get_score_of_k_column(self, column: list) -> int:
-        """ Compare the most frequent element of the list 'column' with the others only one time. """
+        """ Compare the each element of the column list with the others.
+
+        :param column: List of chars.
+        :return: Score of two chars.
+        """
         score_of_column = 0
 
         for char_a, char_b in self.possible_combinations(column):

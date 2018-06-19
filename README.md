@@ -1,13 +1,13 @@
 <p align="center">
   <br/>
-  <img src=resources/pymsa.png alt="PyMSA">
+  <img src=resources/pymsa.png alt="pyMSA">
   <br/>
 </p>
 
 # Scoring Multiple Sequence Alignments with Python
-[![Build Status](https://travis-ci.org/benhid/pyMSA.svg?branch=master)](https://travis-ci.org/benhid/pyMSA)
-[![PyPI](https://img.shields.io/pypi/l/pyMSA.svg)]()
-[![PyPI](https://img.shields.io/pypi/v/pyMSA.svg)]()
+[![Build Status](https://img.shields.io/travis/benhid/pyMSA.svg?style=flat-square)](https://travis-ci.org/benhid/pyMSA)
+[![PyPI License](https://img.shields.io/pypi/l/pyMSA.svg?style=flat-square)]()
+[![PyPI Python version](https://img.shields.io/pypi/pyversions/pyMSA.svg?style=flat-square)]()
 
 pyMSA is an open source software tool aimed at providing a number of scores for
 multiple sequence alignment (MSA) problems.
@@ -28,17 +28,9 @@ $ git clone https://github.com/benhid/pyMSA.git
 $ python setup.py install
 ```
 
-Alternatively, you can install with `pip`:
+Alternatively, you can install it with `pip`:
 ```bash
 $ pip install pyMSA
-```
-
-## Requirements
-pyMSA has been developed with Python 3.6.0 :: [Anaconda](https://www.continuum.io) 4.3.0 (x86_64).
-
-To install all dependencies use:
-```bash
-$ pip install -r requirements.txt
 ```
 
 ### STRIKE score
@@ -72,7 +64,7 @@ An example of running all the included scores is located in the [`example`](exam
 
 ## Authors
 ### Active development team
-* Antonio Benítez <antonio.b@uma.es>
+* Antonio Benítez-Hidalgo <antonio.b@uma.es>
 * Antonio J. Nebro <antonio@lcc.uma.es>
 
 ## License

@@ -4,9 +4,6 @@ from pymsa.core.score import Entropy, PercentageOfNonGaps, PercentageOfTotallyCo
     SumOfPairs, Strike
 from pymsa.core.substitution_matrix import PAM250, Blosum62, FileMatrix
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
 
 def run_all_scores(msa: list) -> None:
     align_sequences = list(pair[1] for pair in msa)
@@ -18,38 +15,48 @@ def run_all_scores(msa: list) -> None:
 
     percentage = non_gaps.compute(align_sequences)
     conserved = totally_conserved_columns.compute(align_sequences)
-    logger.info("Percentage of non-gaps: {0} %".format(percentage))
-    logger.info("Percentage of totally conserved columns: {0}".format(conserved))
+    print("Percentage of non-gaps: {0} %".format(percentage))
+    print("Percentage of totally conserved columns: {0}".format(conserved))
 
     # Entropy
     value = Entropy().compute(align_sequences=align_sequences)
-    logger.info("Entropy score: {0}".format(value))
+    print("Entropy score: {0}".format(value))
 
     # Sum of pairs
     value = SumOfPairs(Blosum62()).compute(align_sequences=align_sequences)
-    logger.info("SumOfPairs score (Blosum62): {0}".format(value))
+    print("SumOfPairs score (Blosum62): {0}".format(value))
 
     value = SumOfPairs(PAM250()).compute(align_sequences=align_sequences)
-    logger.info("SumOfPairs score (PAM250): {0}".format(value))
+    print("SumOfPairs score (PAM250): {0}".format(value))
 
     value = SumOfPairs(FileMatrix('PAM380.txt')).compute(align_sequences=align_sequences)
-    logger.info("SumOfPairs score (PAM380): {0}".format(value))
+    print("SumOfPairs score (PAM380): {0}".format(value))
 
     # Star
     value = Star(Blosum62()).compute(align_sequences=align_sequences)
-    logger.info("Star score (Blosum62): {0}".format(value))
+    print("Star score (Blosum62): {0}".format(value))
 
     value = Star(PAM250()).compute(align_sequences=align_sequences)
-    logger.info("Star score (PAM250): {0}".format(value))
+    print("Star score (PAM250): {0}".format(value))
 
     # STRIKE
     value = Strike().compute(align_sequences=align_sequences,
                              sequences_id=sequences_id,
                              chains=['A', 'E', 'A', 'A'])
-    logger.info("STRIKE score: {0}".format(value))
+    print("STRIKE score: {0}".format(value))
 
 
 if __name__ == '__main__':
+    # Set-up logger options
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format="%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s",
+        handlers=[
+            logging.FileHandler('pymsa.log'),
+            logging.StreamHandler()
+        ]
+    )
+
     msa = [("1g41",
             "S-EMTPREIVSELDQHIIGQADAKRAVAIALRNRWRRMQLQEPLRHE--------VTP-KNILMIGPTGVGKTEIARRLAKLANAPFIKVEATKFT----"
             "VGKEVDSIIRDLTDSAMKLVRQQEIAKNR---------------------------------------------------------------------LI"
