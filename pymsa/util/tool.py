@@ -35,5 +35,5 @@ class StrikeEx(Tool):
         super().__init__(exe, full_name, exe_path)
 
     def _run_command(self, command) -> float:
-        bytes = subprocess.check_output(command, shell=True, env=os.environ.copy())
-        return float("".join(map(chr, bytes)).split('\n')[-2])
+        bytess = subprocess.check_output(command, shell=True, env=os.environ.copy())
+        return float("".join(map(chr, bytess)).split('\n')[-2])
