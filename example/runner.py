@@ -1,6 +1,6 @@
-from pymsa.core.score import Entropy, PercentageOfNonGaps, PercentageOfTotallyConservedColumns, Star, \
+from pymsa import Entropy, PercentageOfNonGaps, PercentageOfTotallyConservedColumns, Star, \
     SumOfPairs, Strike
-from pymsa.core.substitution_matrix import PAM250, Blosum62, FileMatrix
+from pymsa import PAM250, Blosum62, FileMatrix
 
 
 def run_all_scores(msa: list) -> None:
