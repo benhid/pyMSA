@@ -1,37 +1,42 @@
+from abc import abstractmethod, ABCMeta
+
 import itertools
 import logging
 import math
 import os
-import urllib.request
 
-from urllib.error import HTTPError
+import urllib.request
 from collections import Counter
 from pathlib import Path
-import urllib.request
+from urllib.error import HTTPError
 
 from pymsa.core.substitution_matrix import SubstitutionMatrix, PAM250
 from pymsa.util.tool import StrikeEx
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('pyMSA')
 
 
 class Score:
+
+    __metaclass__ = ABCMeta
 
     def compute(self, align_sequences: list) -> float:
         """ Compute the score.
 
         :param align_sequences: List of sequences (as str).
-        :return: Value of the score.
+        :return: Score value.
         """
         if not all(len(sequence) == len(align_sequences[0]) for sequence in align_sequences):
             raise Exception("All the sequences in the FASTA file must be aligned!")
 
-        return self._compute(align_sequences)
+        return self.evaluate(align_sequences)
 
-    def _compute(self, sequences: list) -> float:
+    @abstractmethod
+    def evaluate(self, sequences: list) -> float:
         pass
 
-    def _get_score_of_two_chars(self, substitution_matrix: SubstitutionMatrix, char_a: str, char_b: str) -> int:
+    @staticmethod
+    def get_score_of_two_chars(substitution_matrix: SubstitutionMatrix, char_a: str, char_b: str) -> int:
         """ Return the core of two chars using the substituion matrix.
         :param substitution_matrix: Matrix of scores such as PAM250, Blosum62, etc.
         :param char_a: First char.
@@ -50,7 +55,7 @@ class Score:
 
 class Entropy(Score):
 
-    def _compute(self, align_sequences: list) -> float:
+    def evaluate(self, align_sequences: list) -> float:
         length_of_sequence = len(align_sequences[0])
         column = []
         final_score = 0
@@ -64,15 +69,17 @@ class Entropy(Score):
 
         return final_score
 
-    def get_words_frequencies(self, words: list) -> dict:
-        """ Compute frecuencies of words inside a list.
+    @staticmethod
+    def get_words_frequencies(words: list) -> dict:
+        """ Compute frequencies of words inside a list.
 
         :param words: List of words.
         :return: Dictionary with computed frecuencies. """
         word_freq = [words.count(w) / len(words) for w in words]
         return dict(zip(words, word_freq))
 
-    def get_column_entropy(self, column: dict) -> float:
+    @staticmethod
+    def get_column_entropy(column: dict) -> float:
         """ Compute the Minimum Entropy for the current column. """
         current_entropy = 0
 
@@ -90,10 +97,10 @@ class Entropy(Score):
 class Star(Score):
 
     def __init__(self, substitution_matrix: SubstitutionMatrix = PAM250()):
-        super().__init__()
+        super(Star, self).__init__()
         self.substitution_matrix = substitution_matrix
 
-    def _compute(self, align_sequences: list) -> int:
+    def evaluate(self, align_sequences: list) -> int:
         length_of_sequence = len(align_sequences[0])
         column = []
         final_score = 0
@@ -116,7 +123,7 @@ class Star(Score):
         most_frequent_char = Counter(column).most_common(1)[0][0]
 
         for char in column:
-            score_of_column += self._get_score_of_two_chars(self.substitution_matrix, most_frequent_char, char)
+            score_of_column += self.get_score_of_two_chars(self.substitution_matrix, most_frequent_char, char)
 
         logger.debug('Score of column: {0}'.format(score_of_column))
         return score_of_column
@@ -129,10 +136,10 @@ class Star(Score):
 class SumOfPairs(Score):
 
     def __init__(self, substitution_matrix: SubstitutionMatrix = PAM250()):
-        super().__init__()
+        super(SumOfPairs, self).__init__()
         self.substitution_matrix = substitution_matrix
 
-    def _compute(self, align_sequences: list) -> int:
+    def evaluate(self, align_sequences: list) -> int:
         length_of_sequence = len(align_sequences[0])
         column = []
         final_score = 0
@@ -153,13 +160,14 @@ class SumOfPairs(Score):
         """
         score_of_column = 0
 
-        for char_a, char_b in self.possible_combinations(column):
-            score_of_column += self._get_score_of_two_chars(self.substitution_matrix, char_a, char_b)
+        for char_a, char_b in self.__possible_combinations(column):
+            score_of_column += self.get_score_of_two_chars(self.substitution_matrix, char_a, char_b)
 
         logger.debug('Score of column: {0}'.format(score_of_column))
         return score_of_column
 
-    def possible_combinations(self, column) -> itertools.combinations:
+    @staticmethod
+    def __possible_combinations(column) -> itertools.combinations:
         return itertools.combinations(column, 2)
 
     @staticmethod
@@ -169,7 +177,7 @@ class SumOfPairs(Score):
 
 class PercentageOfNonGaps(Score):
 
-    def _compute(self, align_sequences: list) -> float:
+    def evaluate(self, align_sequences: list) -> float:
         length_of_sequence = len(align_sequences[0])
         no_of_gaps = 0
 
@@ -188,7 +196,7 @@ class PercentageOfNonGaps(Score):
 
 class PercentageOfTotallyConservedColumns(Score):
 
-    def _compute(self, align_sequences: list) -> float:
+    def evaluate(self, align_sequences: list) -> float:
         length_sequence = len(align_sequences[0])
         no_of_conserved_columns = 0
         column = []
@@ -200,8 +208,9 @@ class PercentageOfTotallyConservedColumns(Score):
                 no_of_conserved_columns += 1
             column.clear()
 
-        logger.debug(
-            'Total number of conserved columns: {0} out of {1}'.format(no_of_conserved_columns, length_sequence))
+        logger.debug('Total number of conserved columns: {0} out of {1}'.format(
+            no_of_conserved_columns, length_sequence)
+        )
 
         return no_of_conserved_columns / length_sequence * 100
 
@@ -217,9 +226,9 @@ class Strike:
         self.out_alignment_path = 'strike/aln.fa'
 
     def compute(self, align_sequences: list, sequences_id: list, chains: list):
-        return self._compute(align_sequences, sequences_id, chains)
+        return self.__compute(align_sequences, sequences_id, chains)
 
-    def _compute(self, align_sequences: list, sequences_id: list, chains: list) -> float:
+    def __compute(self, align_sequences: list, sequences_id: list, chains: list) -> float:
         # Check if directory exists (otherwise, create it)
         os.makedirs('strike/', exist_ok=True)
 
@@ -232,7 +241,8 @@ class Strike:
 
         return StrikeEx().run(parameters={'-c': self.out_connection_path, '-a': self.out_alignment_path})
 
-    def get_pdb(self, pdb_id: str) -> str:
+    @staticmethod
+    def get_pdb(pdb_id: str) -> str:
         base_url = 'https://files.rcsb.org/download/'
         base_url += pdb_id + '.pdb'
 

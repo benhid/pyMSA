@@ -1,5 +1,3 @@
-import logging
-
 from pymsa.core.score import Entropy, PercentageOfNonGaps, PercentageOfTotallyConservedColumns, Star, \
     SumOfPairs, Strike
 from pymsa.core.substitution_matrix import PAM250, Blosum62, FileMatrix
@@ -47,16 +45,6 @@ def run_all_scores(msa: list) -> None:
 
 
 if __name__ == '__main__':
-    # Set-up logger options
-    logging.basicConfig(
-        level=logging.DEBUG,
-        format="%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s",
-        handlers=[
-            logging.FileHandler('pymsa.log'),
-            logging.StreamHandler()
-        ]
-    )
-
     msa = [("1g41",
             "S-EMTPREIVSELDQHIIGQADAKRAVAIALRNRWRRMQLQEPLRHE--------VTP-KNILMIGPTGVGKTEIARRLAKLANAPFIKVEATKFT----"
             "VGKEVDSIIRDLTDSAMKLVRQQEIAKNR---------------------------------------------------------------------LI"
