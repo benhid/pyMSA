@@ -35,9 +35,9 @@ $ pip install pyMSA
 
 ### STRIKE score
 For computing the [STRIKE](http://www.tcoffee.org/Projects/strike/) score, 
-the package (v1.2) must be installed on the `usr/local/bin` folder.
+the tool (v1.2) must be installed on the `usr/local/bin` folder.
 
-e.g. After compiling run:
+*e.g.* After compiling run:
 
 ```bash
 $ sudo cp bin/strike /usr/local/bin
@@ -47,9 +47,7 @@ $ sudo cp bin/strike /usr/local/bin
 
 pyMSA has only two available substitution matrices: *PAM250*  and *Blosum62*.
 
-Other substitution matrices can be used by reading a matrix [file](ftp://ftp.ncbi.nih.gov/blast/matrices/) with `read_matrix_from_file()` (from `pymsa.util.substitution_matrix` module).
-
-`FileMatrix` implements this method by default:
+Other substitution matrices can be used by reading a matrix [file](ftp://ftp.ncbi.nih.gov/blast/matrices/) with `read_matrix_from_file()` (from the `pymsa.util.substitution_matrix` module). `FileMatrix` implements this method by default:
 
 ```python
 from pymsa.core.substitution_matrix import PAM250, Blosum62, FileMatrix
