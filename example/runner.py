@@ -40,10 +40,10 @@ def run_all_scores(msa: list) -> None:
     print("Star score (PAM250): {0}".format(value))
 
     # STRIKE
-    value = Strike().compute(align_sequences=align_sequences,
-                             sequences_id=sequences_id,
-                             chains=['A', 'E', 'A', 'A'])
-    print("STRIKE score: {0}".format(value))
+    #value = Strike().compute(align_sequences=align_sequences,
+    #                         sequences_id=sequences_id,
+    #                         chains=['A', 'E', 'A', 'A'])
+    # print("STRIKE score: {0}".format(value))
 
 
 if __name__ == '__main__':
