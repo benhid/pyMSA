@@ -1,6 +1,8 @@
+import sys
 from pymsa import Entropy, PercentageOfNonGaps, PercentageOfTotallyConservedColumns, Star, \
     SumOfPairs, Strike
 from pymsa import PAM250, Blosum62, FileMatrix
+from pymsa.util.fasta import read_fasta_file_as_list_of_pairs
 
 
 def run_all_scores(msa: list) -> None:
@@ -45,7 +47,8 @@ def run_all_scores(msa: list) -> None:
 
 
 if __name__ == '__main__':
-    msa = [("1g41",
+    if len(sys.argv) != 2:
+        msa = [("1g41",
             "S-EMTPREIVSELDQHIIGQADAKRAVAIALRNRWRRMQLQEPLRHE--------VTP-KNILMIGPTGVGKTEIARRLAKLANAPFIKVEATKFT----"
             "VGKEVDSIIRDLTDSAMKLVRQQEIAKNR---------------------------------------------------------------------LI"
             "DDEAAKLINPEELKQKAIDAVE--QNGIVFIDEIDKICKKGEYSGADVSREGVQRDLLPLVEGSTVSTKHGMVKTDHILFIASGAFQVARPSDL------"
@@ -69,5 +72,7 @@ if __name__ == '__main__':
             "-------------MKKIFDDAYKSQLSCVVVDDIERLLDYV-PIGPRFSNLVLQA-LLVLLKKA-------PPQGRKLLIIGTTS----R-KDVLQEMEM"
             "LNA---------------------------------FSTTIHVPNIATGEQL--LEALEL-LGNFKDKE---RTTIAQQVKGKKVWIGIKKLLMLIEM--"
             "-------------SLQMDPEYRVRKFLALLREEGAS-PLD")]
+    else:
+        msa = read_fasta_file_as_list_of_pairs(sys.argv[1])
 
     run_all_scores(msa)
