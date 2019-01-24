@@ -19,5 +19,8 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
         'Programming Language :: Python :: 3.6'
+    ],
+    install_requires=[
+        'click'
     ]
 )

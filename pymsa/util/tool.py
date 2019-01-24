@@ -1,12 +1,10 @@
 import os
 import subprocess
-from abc import ABCMeta, abstractmethod
+from abc import abstractmethod, ABC
 from pathlib import Path
 
 
-class Tool:
-
-    __metaclass__ = ABCMeta
+class Tool(ABC):
 
     def __init__(self, exe: str, full_name: str, exe_path: str):
         self.exe = exe
@@ -33,9 +31,8 @@ class Tool:
 
 class StrikeEx(Tool):
 
-    def __init__(self, exe: str = 'strike', full_name: str = 'Single structure induced evaluation',
-                 exe_path: str = '/usr/local/bin/strike'):
-        super(StrikeEx, self).__init__(exe, full_name, exe_path)
+    def __init__(self, exe_path: str = '/usr/local/bin/strike'):
+        super(StrikeEx, self).__init__('strike', 'Single structure induced evaluation', exe_path)
 
     def run_command(self, command) -> float:
         bytess = subprocess.check_output(command, shell=True, env=os.environ.copy())

@@ -1,46 +1,49 @@
 import sys
 from pymsa import Entropy, PercentageOfNonGaps, PercentageOfTotallyConservedColumns, Star, \
-    SumOfPairs, Strike
+    SumOfPairs
 from pymsa import PAM250, Blosum62, FileMatrix
-from pymsa.util.fasta import read_fasta_file_as_list_of_pairs
+from pymsa.util.fasta import read_fasta_file_as_list_of_pairs, print_alignment
 
 
 def run_all_scores(msa: list) -> None:
-    align_sequences = list(pair[1] for pair in msa)
+    aligned_sequences = list(pair[1] for pair in msa)
     sequences_id = list(pair[0] for pair in msa)
+
+    print_alignment(aligned_sequences, sequences_id)
 
     # Percentage of non-gaps and totally conserved columns
     non_gaps = PercentageOfNonGaps()
     totally_conserved_columns = PercentageOfTotallyConservedColumns()
 
-    percentage = non_gaps.compute(align_sequences)
-    conserved = totally_conserved_columns.compute(align_sequences)
+    percentage = non_gaps.compute(aligned_sequences)
     print("Percentage of non-gaps: {0} %".format(percentage))
+
+    conserved = totally_conserved_columns.compute(aligned_sequences)
     print("Percentage of totally conserved columns: {0}".format(conserved))
 
     # Entropy
-    value = Entropy().compute(align_sequences=align_sequences)
+    value = Entropy().compute(aligned_sequences=aligned_sequences)
     print("Entropy score: {0}".format(value))
 
     # Sum of pairs
-    value = SumOfPairs(Blosum62()).compute(align_sequences=align_sequences)
-    print("SumOfPairs score (Blosum62): {0}".format(value))
+    value = SumOfPairs(Blosum62()).compute(aligned_sequences=aligned_sequences)
+    print("Sum of Pairs score (Blosum62): {0}".format(value))
 
-    value = SumOfPairs(PAM250()).compute(align_sequences=align_sequences)
-    print("SumOfPairs score (PAM250): {0}".format(value))
+    value = SumOfPairs(PAM250()).compute(aligned_sequences=aligned_sequences)
+    print("Sum of Pairs score (PAM250): {0}".format(value))
 
-    value = SumOfPairs(FileMatrix('PAM380.txt')).compute(align_sequences=align_sequences)
-    print("SumOfPairs score (PAM380): {0}".format(value))
+    value = SumOfPairs(FileMatrix('PAM380.txt')).compute(aligned_sequences=aligned_sequences)
+    print("Sum of Pairs score (PAM380): {0}".format(value))
 
     # Star
-    value = Star(Blosum62()).compute(align_sequences=align_sequences)
+    value = Star(Blosum62()).compute(aligned_sequences=aligned_sequences)
     print("Star score (Blosum62): {0}".format(value))
 
-    value = Star(PAM250()).compute(align_sequences=align_sequences)
+    value = Star(PAM250()).compute(aligned_sequences=aligned_sequences)
     print("Star score (PAM250): {0}".format(value))
 
     # STRIKE
-    #value = Strike().compute(align_sequences=align_sequences,
+    #value = Strike().compute(aligned_sequences=aligned_sequences,
     #                         sequences_id=sequences_id,
     #                         chains=['A', 'E', 'A', 'A'])
     # print("STRIKE score: {0}".format(value))

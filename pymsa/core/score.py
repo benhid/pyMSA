@@ -1,11 +1,9 @@
-from abc import abstractmethod, ABCMeta
-
 import itertools
 import logging
 import math
 import os
-
 import urllib.request
+from abc import abstractmethod, ABC
 from collections import Counter
 from pathlib import Path
 from urllib.error import HTTPError
@@ -13,27 +11,21 @@ from urllib.error import HTTPError
 from pymsa.core.substitution_matrix import SubstitutionMatrix, PAM250
 from pymsa.util.tool import StrikeEx
 
-logger = logging.getLogger('pyMSA')
+LOGGER = logging.getLogger('pyMSA')
 
 
-class Score:
+class Score(ABC):
 
-    __metaclass__ = ABCMeta
-
-    def compute(self, align_sequences: list) -> float:
+    def compute(self, aligned_sequences: list) -> float:
         """ Compute the score.
 
-        :param align_sequences: List of sequences (as str).
+        :param aligned_sequences: List of sequences (as str).
         :return: Score value.
         """
-        if not all(len(sequence) == len(align_sequences[0]) for sequence in align_sequences):
+        if not all(len(sequence) == len(aligned_sequences[0]) for sequence in aligned_sequences):
             raise Exception("All the sequences in the FASTA file must be aligned!")
 
-        return self.evaluate(align_sequences)
-
-    @abstractmethod
-    def evaluate(self, sequences: list) -> float:
-        pass
+        return self.evaluate(aligned_sequences)
 
     @staticmethod
     def get_score_of_two_chars(substitution_matrix: SubstitutionMatrix, char_a: str, char_b: str) -> int:
@@ -45,6 +37,10 @@ class Score:
         """
         return int(substitution_matrix.get_distance(char_a, char_b))
 
+    @abstractmethod
+    def evaluate(self, sequences: list) -> float:
+        pass
+
     @staticmethod
     def is_minimization() -> bool:
         pass
@@ -55,13 +51,13 @@ class Score:
 
 class Entropy(Score):
 
-    def evaluate(self, align_sequences: list) -> float:
-        length_of_sequence = len(align_sequences[0])
+    def evaluate(self, sequences: list) -> float:
+        length_of_sequence = len(sequences[0])
         column = []
         final_score = 0
 
         for k in range(length_of_sequence):
-            for sequence in align_sequences:
+            for sequence in sequences:
                 column.append(sequence[k])
             column_chars_and_frequencies = self.get_words_frequencies(column)
             final_score += self.get_column_entropy(column_chars_and_frequencies)
@@ -74,7 +70,7 @@ class Entropy(Score):
         """ Compute frequencies of words inside a list.
 
         :param words: List of words.
-        :return: Dictionary with computed frecuencies. """
+        :return: Dictionary with computed frequencies. """
         word_freq = [words.count(w) / len(words) for w in words]
         return dict(zip(words, word_freq))
 
@@ -85,7 +81,7 @@ class Entropy(Score):
 
         for key, value in column.items():
             current_entropy += value * math.log(value)
-            logger.debug('Character {0}, frecuency: {1}, entropy: {2})'.format(key, value, value * math.log(value)))
+            LOGGER.debug('Character {0}, frecuency: {1}, entropy: {2})'.format(key, value, value * math.log(value)))
 
         return current_entropy
 
@@ -100,13 +96,13 @@ class Star(Score):
         super(Star, self).__init__()
         self.substitution_matrix = substitution_matrix
 
-    def evaluate(self, align_sequences: list) -> int:
-        length_of_sequence = len(align_sequences[0])
+    def evaluate(self, sequences: list) -> int:
+        length_of_sequence = len(sequences[0])
         column = []
         final_score = 0
 
         for k in range(length_of_sequence):
-            for sequence in align_sequences:
+            for sequence in sequences:
                 column.append(sequence[k])
             final_score += self.get_score_of_k_column(column)
             column.clear()
@@ -125,7 +121,7 @@ class Star(Score):
         for char in column:
             score_of_column += self.get_score_of_two_chars(self.substitution_matrix, most_frequent_char, char)
 
-        logger.debug('Score of column: {0}'.format(score_of_column))
+        LOGGER.debug('Score of column: {0}'.format(score_of_column))
         return score_of_column
 
     @staticmethod
@@ -139,13 +135,13 @@ class SumOfPairs(Score):
         super(SumOfPairs, self).__init__()
         self.substitution_matrix = substitution_matrix
 
-    def evaluate(self, align_sequences: list) -> int:
-        length_of_sequence = len(align_sequences[0])
+    def evaluate(self, sequences: list) -> int:
+        length_of_sequence = len(sequences[0])
         column = []
         final_score = 0
 
         for k in range(length_of_sequence):
-            for sequence in align_sequences:
+            for sequence in sequences:
                 column.append(sequence[k])
             final_score += self.get_score_of_k_column(column)
             column.clear()
@@ -163,7 +159,7 @@ class SumOfPairs(Score):
         for char_a, char_b in self.__possible_combinations(column):
             score_of_column += self.get_score_of_two_chars(self.substitution_matrix, char_a, char_b)
 
-        logger.debug('Score of column: {0}'.format(score_of_column))
+        LOGGER.debug('Score of column: {0}'.format(score_of_column))
         return score_of_column
 
     @staticmethod
@@ -184,8 +180,8 @@ class PercentageOfNonGaps(Score):
         for sequence in align_sequences:
             no_of_gaps += sequence.count('-')
 
-        logger.debug('Total number of gaps: {0}'.format(no_of_gaps))
-        logger.debug('Total number of non-gaps: {0}'.format(length_of_sequence * 2 - no_of_gaps))
+        LOGGER.debug('Total number of gaps: {0}'.format(no_of_gaps))
+        LOGGER.debug('Total number of non-gaps: {0}'.format(length_of_sequence * 2 - no_of_gaps))
 
         return 100 - (no_of_gaps / (length_of_sequence * len(align_sequences)) * 100)
 
@@ -196,19 +192,19 @@ class PercentageOfNonGaps(Score):
 
 class PercentageOfTotallyConservedColumns(Score):
 
-    def evaluate(self, align_sequences: list) -> float:
-        length_sequence = len(align_sequences[0])
+    def evaluate(self, sequences: list) -> float:
+        length_sequence = len(sequences[0])
         no_of_conserved_columns = 0
         column = []
 
         for k in range(length_sequence):
-            for sequence in align_sequences:
+            for sequence in sequences:
                 column.append(sequence[k])
             if len(set(column)) <= 1:
                 no_of_conserved_columns += 1
             column.clear()
 
-        logger.debug('Total number of conserved columns: {0} out of {1}'.format(
+        LOGGER.debug('Total number of conserved columns: {0} out of {1}'.format(
             no_of_conserved_columns, length_sequence)
         )
 
@@ -221,14 +217,15 @@ class PercentageOfTotallyConservedColumns(Score):
 
 class Strike:
 
-    def __init__(self):
+    def __init__(self, exe_path: str = '/usr/local/bin/strike'):
         self.out_connection_path = 'strike/in.con'
         self.out_alignment_path = 'strike/aln.fa'
+        self.exe_path = exe_path
 
-    def compute(self, align_sequences: list, sequences_id: list, chains: list):
-        return self.__compute(align_sequences, sequences_id, chains)
+    def compute(self, aligned_sequences: list, sequences_id: list, chains: list) -> float:
+        return self.evaluate(aligned_sequences, sequences_id, chains)
 
-    def __compute(self, align_sequences: list, sequences_id: list, chains: list) -> float:
+    def evaluate(self, align_sequences: list, sequences_id: list, chains: list) -> float:
         # Check if directory exists (otherwise, create it)
         os.makedirs('strike/', exist_ok=True)
 
@@ -239,7 +236,7 @@ class Strike:
                     c_file.writelines(sequences_id[i] + ' ./strike/' + sequences_id[i] + '.pdb ' + chains[i] + '\n')
                     a_file.writelines('>' + sequences_id[i] + '\n' + align_sequences[i] + '\n')
 
-        return StrikeEx().run(parameters={'-c': self.out_connection_path, '-a': self.out_alignment_path})
+        return StrikeEx(self.exe_path).run(parameters={'-c': self.out_connection_path, '-a': self.out_alignment_path})
 
     @staticmethod
     def get_pdb(pdb_id: str) -> str:
@@ -249,7 +246,7 @@ class Strike:
         out_pdb_path = 'strike/' + pdb_id + '.pdb'
 
         if not Path(out_pdb_path).is_file():
-            logger.debug('Downloading .pdb file...')
+            LOGGER.debug('Downloading .pdb file...')
 
             try:
                 req = urllib.request.Request(base_url)

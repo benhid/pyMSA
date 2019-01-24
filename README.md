@@ -13,7 +13,7 @@ pyMSA is an open source software tool aimed at providing a number of scores for
 multiple sequence alignment (MSA) problems.
 
 ## Features
-The scores that are currently available are:
+The scores that are [currently available](resources/tutorial-pymsa.pdf) are:
 * Sum of pairs,
 * Star,
 * Minimum entropy,
@@ -33,16 +33,6 @@ Alternatively, you can install it with `pip`:
 $ pip install pyMSA
 ```
 
-### STRIKE score
-For computing the [STRIKE](http://www.tcoffee.org/Projects/strike/) score, 
-the tool (v1.2) must be installed on the `usr/local/bin` folder.
-
-*e.g.* After compiling run:
-
-```bash
-$ sudo cp bin/strike /usr/local/bin
-```
-
 ### Substitution matrices
 
 pyMSA has only two available substitution matrices: *PAM250*  and *Blosum62*.
@@ -58,12 +48,18 @@ pam380 = FileMatrix('PAM380.txt')
 ```
 
 ## Usage
-An example of running all the included scores is located in the [`example`](example/) folder.
+An example of running all the included scores is located in the [`example`](examples/) folder.
+
+<p align="center">
+  <br/>
+  <img src=resources/terminal.png alt="Terminal session">
+  <br/>
+</p>
 
 ## Authors
 ### Active development team
-* Antonio Benítez-Hidalgo <antonio.b@uma.es>
-* Antonio J. Nebro <antonio@lcc.uma.es>
+* [Antonio Benítez-Hidalgo](https://benhid.github.io/) <antonio.b@uma.es>
+* [Antonio J. Nebro](http://www.lcc.uma.es/~antonio) <antonio@lcc.uma.es>
 
 ## License
 This project is licensed under the terms of the MIT - see the [LICENSE](LICENSE) file for details.
