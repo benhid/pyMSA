@@ -52,7 +52,7 @@ An example of running all the included scores is located in the [`example`](exam
 
 <p align="center">
   <br/>
-  <img src=resources/terminal.png alt="Terminal session">
+  <img src=resources/terminal.png width=600 alt="Terminal session">
   <br/>
 </p>
 
