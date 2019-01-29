@@ -10,10 +10,10 @@
 [![PyPI Python version](https://img.shields.io/pypi/pyversions/pyMSA.svg?style=flat-square)]()
 
 pyMSA is an open source software tool aimed at providing a number of scores for
-multiple sequence alignment (MSA) problems.
+multiple sequence alignment (MSA) problems. A [tutorial](resources/tutorial-pymsa.pdf) about pyMSA is available in the resources folder of the proyect.
 
 ## Features
-The scores that are [currently available](resources/tutorial-pymsa.pdf) are:
+The scores that are currently included are:
 * Sum of pairs,
 * Star,
 * Minimum entropy,
