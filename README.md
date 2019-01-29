@@ -10,10 +10,10 @@
 [![PyPI Python version](https://img.shields.io/pypi/pyversions/pyMSA.svg?style=flat-square)]()
 
 pyMSA is an open source software tool aimed at providing a number of scores for
-multiple sequence alignment (MSA) problems.
+multiple sequence alignment (MSA) problems. A [tutorial](resources/tutorial-pymsa.pdf) about pyMSA is available in the resources folder of the proyect.
 
 ## Features
-The scores that are [currently available](resources/tutorial-pymsa.pdf) are:
+The scores that are currently included are:
 * Sum of pairs,
 * Star,
 * Minimum entropy,
@@ -35,9 +35,7 @@ $ pip install pyMSA
 
 ### Substitution matrices
 
-pyMSA has only two available substitution matrices: *PAM250*  and *Blosum62*.
-
-Other substitution matrices can be used by reading a matrix [file](ftp://ftp.ncbi.nih.gov/blast/matrices/) with `read_matrix_from_file()` (from the `pymsa.util.substitution_matrix` module). `FileMatrix` implements this method by default:
+pyMSA has two available substitution matrices: *PAM250*  and *Blosum62*. Other substitution matrices can be used by reading a matrix [file](ftp://ftp.ncbi.nih.gov/blast/matrices/) with `read_matrix_from_file()` (from the `pymsa.util.substitution_matrix` module). `FileMatrix` implements this method by default:
 
 ```python
 from pymsa.core.substitution_matrix import PAM250, Blosum62, FileMatrix
