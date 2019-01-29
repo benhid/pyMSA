@@ -218,25 +218,25 @@ class PercentageOfTotallyConservedColumns(Score):
 class Strike:
 
     def __init__(self, exe_path: str = '/usr/local/bin/strike'):
-        self.out_connection_path = 'strike/in.con'
-        self.out_alignment_path = 'strike/aln.fa'
-        self.exe_path = exe_path
+        self.out_connection_path = os.path.abspath('strike/in.con')
+        self.out_alignment_path = os.path.abspath('strike/aln.fa')
+        self.exe_path = os.path.abspath(exe_path)
 
     def compute(self, aligned_sequences: list, sequences_id: list, chains: list) -> float:
         return self.evaluate(aligned_sequences, sequences_id, chains)
 
     def evaluate(self, align_sequences: list, sequences_id: list, chains: list) -> float:
         # Check if directory exists (otherwise, create it)
-        os.makedirs('strike/', exist_ok=True)
+        os.makedirs(os.path.abspath('strike'), exist_ok=True)
 
         if not Path(self.out_connection_path).is_file() and not Path(self.out_alignment_path).is_file():
             with open(self.out_connection_path, "w+") as c_file, open(self.out_alignment_path, "w+") as a_file:
                 for i in range(len(align_sequences)):
                     self.get_pdb(sequences_id[i])
-                    c_file.writelines(sequences_id[i] + ' ./strike/' + sequences_id[i] + '.pdb ' + chains[i] + '\n')
+                    c_file.writelines(sequences_id[i] + ' ' + os.path.abspath('strike') + '/' + sequences_id[i] + '.pdb ' + chains[i] + '\n')
                     a_file.writelines('>' + sequences_id[i] + '\n' + align_sequences[i] + '\n')
 
-        return StrikeEx(self.exe_path).run(parameters={'-c': self.out_connection_path, '-a': self.out_alignment_path})
+        return StrikeEx(os.path.abspath(self.exe_path)).run(parameters={'-c': self.out_connection_path, '-a': self.out_alignment_path})
 
     @staticmethod
     def get_pdb(pdb_id: str) -> str:

@@ -1,6 +1,6 @@
 import sys
 from pymsa import Entropy, PercentageOfNonGaps, PercentageOfTotallyConservedColumns, Star, \
-    SumOfPairs
+    SumOfPairs, Strike
 from pymsa import PAM250, Blosum62, FileMatrix
 from pymsa.util.fasta import read_fasta_file_as_list_of_pairs, print_alignment
 
@@ -43,10 +43,10 @@ def run_all_scores(msa: list) -> None:
     print("Star score (PAM250): {0}".format(value))
 
     # STRIKE
-    #value = Strike().compute(aligned_sequences=aligned_sequences,
-    #                         sequences_id=sequences_id,
-    #                         chains=['A', 'E', 'A', 'A'])
-    # print("STRIKE score: {0}".format(value))
+    value = Strike().compute(aligned_sequences=aligned_sequences,
+                             sequences_id=sequences_id,
+                             chains=['A', 'E', 'A', 'A'])
+    print("STRIKE score: {0}".format(value))
 
 
 if __name__ == '__main__':

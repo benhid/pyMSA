@@ -1,4 +1,4 @@
-1g41 ./strike/1g41.pdb A
-1e94 ./strike/1e94.pdb E
-1e32 ./strike/1e32.pdb A
-1d2n ./strike/1d2n.pdb A
+1g41 /home/benhid/Proyectos/pyMSA/examples/strike/1g41.pdb A
+1e94 /home/benhid/Proyectos/pyMSA/examples/strike/1e94.pdb E
+1e32 /home/benhid/Proyectos/pyMSA/examples/strike/1e32.pdb A
+1d2n /home/benhid/Proyectos/pyMSA/examples/strike/1d2n.pdb A
