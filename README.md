@@ -35,9 +35,7 @@ $ pip install pyMSA
 
 ### Substitution matrices
 
-pyMSA has only two available substitution matrices: *PAM250*  and *Blosum62*.
-
-Other substitution matrices can be used by reading a matrix [file](ftp://ftp.ncbi.nih.gov/blast/matrices/) with `read_matrix_from_file()` (from the `pymsa.util.substitution_matrix` module). `FileMatrix` implements this method by default:
+pyMSA has two available substitution matrices: *PAM250*  and *Blosum62*. Other substitution matrices can be used by reading a matrix [file](ftp://ftp.ncbi.nih.gov/blast/matrices/) with `read_matrix_from_file()` (from the `pymsa.util.substitution_matrix` module). `FileMatrix` implements this method by default:
 
 ```python
 from pymsa.core.substitution_matrix import PAM250, Blosum62, FileMatrix
