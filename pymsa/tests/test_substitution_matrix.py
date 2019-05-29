@@ -31,13 +31,13 @@ class SubstitutionMatrixTestCases(unittest.TestCase):
 class FileMatrixTestCases(unittest.TestCase):
 
     def test_should_default_gap_penalty_be_minus_eight(self):
-        matrix = FileMatrix(path_to_file=os.path.dirname(__file__)+'/test_matrix.txt')
+        matrix = FileMatrix(path=os.path.dirname(__file__) + '/test_matrix.txt')
 
         self.assertEqual(matrix.gap_penalty, matrix.get_distance('A', '-'))
         self.assertEqual(matrix.gap_penalty, matrix.get_distance('-', 'B'))
 
     def test_should_get_distance_return_the_correct_values_if_there_are_no_gaps(self):
-        matrix = FileMatrix(path_to_file=os.path.dirname(__file__)+'/test_matrix.txt')
+        matrix = FileMatrix(path=os.path.dirname(__file__) + '/test_matrix.txt')
 
         self.assertEqual(-1, matrix.get_distance('A', 'R'))
         self.assertEqual(-1, matrix.get_distance('R', 'A'))

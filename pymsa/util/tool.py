@@ -12,8 +12,8 @@ class Tool(ABC):
         self.exe_path = exe_path
 
     def run(self, parameters: dict):
-        if self.__exe_exists():
-            command = self.__create_command(parameters)
+        if self._exe_exists():
+            command = self._create_command(parameters)
             return self.run_command(command)
         else:
             raise Exception('{0} executable could been found on path {1}'.format(self.exe, self.exe_path))
@@ -22,10 +22,10 @@ class Tool(ABC):
     def run_command(self, command):
         pass
 
-    def __create_command(self, parameters: dict) -> str:
+    def _create_command(self, parameters: dict) -> str:
         return self.exe + ''.join(' {} {} '.format(key, val) for key, val in parameters.items())
 
-    def __exe_exists(self) -> bool:
+    def _exe_exists(self) -> bool:
         return Path(self.exe_path).is_file()
 
 

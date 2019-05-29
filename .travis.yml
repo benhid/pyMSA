@@ -2,13 +2,3 @@ language: python
 python: "3.6"
 # command to run tests
 script: python -m unittest discover
-# deploy to pypi
-deploy:
- provider: pypi
- skip_cleanup: true
- user: benhid
- distributions: sdist bdist_wheel
- password:
-   secure: "Nj/zMRrTMeI8OEvTaL0HA7MkLJdNoHOzgbkpxKFJaJ6YQdON6CFZ5S6gYVJ/lUXHhGvN5dsaTihcWMflel33YJ1JHRWYAG/LeRl9idsljz66Gm1wGZ4golCGp+iJHhM0SdcosT5DoilV9Ma3FTQbrLEqUuEK+DOU50rA1fOpYZYrZjDwtFIiFbup03a7z5fmwF0s4L9y3/yQbmY0lSm9FMx98MzknUwjDlsXF2dcsf+zMQ8JaCZU9TFVINqeD5SqzS3qL2RxpNROFe+dLM82CUfhdraa05kcnG5Rmy3YR5KKoz7lNSfcFkhd76F3Ci428Nf3fUT6bViQf1WWWzqOfN0Pq5FI6ZFkggfoCEsoT9Ky9uUSpepAChSvw3DQu7tMa+xdEtMnnfr0grB8kQJCX/KFkBVIF1Nyd2NJbJFGpNVOr0sTIAHp3GZWkotC/ZaoV7cGDzR4ozQT7HatqXz3UoLKZdmn7Oe5J5Z4pHJCWQKobWK9+zqIhAktCAOSRcFI5LJ4I05GJtcDWIdhRodtKSlHvCc6avcmXVgkkhmjXWbpvLgpZ3PJYLIGmhYcITYfNueyg9P6mNdj075SG4IeZJ+RUs5xniSC9TQMOmKUuMGgbF2TmMlKjVBpsFzcHggpasKnRObCchMLT1h4Z7ArsI6Mr2VDyAHVQinftMyEKr8="
- on:
-   branch: master

@@ -1,23 +1,23 @@
 import re
-from abc import ABCMeta
+from abc import ABC
 
 
-class SubstitutionMatrix:
-
-    __metaclass__ = ABCMeta
+class SubstitutionMatrix(ABC):
 
     def __init__(self, gap_penalty: int, gap_character: str):
         self.gap_penalty = gap_penalty
         self.gap_character = gap_character
+
         self.distance_matrix = dict()
 
     def get_distance(self, char1, char2) -> int:
-        """ Returns the distance between two characters.
+        """
+        Returns the distance between two characters.
 
         :param char1: First character.
         :param char2: Second character.
-        :return: The distance value from the scoring matrix. """
-
+        :return: The distance value from the scoring matrix.
+        """
         if char1 is self.gap_character and char2 is self.gap_character:
             distance = 1
         elif char1 is self.gap_character or char2 is self.gap_character:
@@ -36,13 +36,14 @@ class SubstitutionMatrix:
 
 
 class FileMatrix(SubstitutionMatrix):
-    """ Read blast/matrix from file
+    """
+    Read blast/matrix from file
 
-    .. note:: Files can be found at ftp://ftp.ncbi.nih.gov/blast/matrices/ """
-
-    def __init__(self, path_to_file: str, gap_penalty: int = -8, gap_character: str = '-'):
+    .. note:: Files can be found at ftp://ftp.ncbi.nih.gov/blast/matrices/
+    """
+    def __init__(self, path: str, gap_penalty: int = -8, gap_character: str = '-'):
         super(FileMatrix, self).__init__(gap_penalty, gap_character)
-        self.distance_matrix = self.read_matrix_from_file(path_to_file)
+        self.distance_matrix = self.read_matrix_from_file(path)
 
     @staticmethod
     def read_matrix_from_file(path_to_file: str) -> dict:
@@ -70,9 +71,11 @@ class FileMatrix(SubstitutionMatrix):
 
 
 class PAM250(SubstitutionMatrix):
-    """ Class implementing the PAM250 substitution matrix
+    """
+    Class implementing the PAM250 substitution matrix
 
-    .. seealso:: https://en.wikipedia.org/wiki/Point_accepted_mutation """
+    .. seealso:: https://en.wikipedia.org/wiki/Point_accepted_mutation
+    """
 
     def __init__(self, gap_penalty: int = -8, gap_character: str = '-'):
         super(PAM250, self).__init__(gap_penalty, gap_character)
@@ -147,9 +150,11 @@ class PAM250(SubstitutionMatrix):
 
 
 class Blosum62(SubstitutionMatrix):
-    """ Class implementing the Blosum62 substitution matrix.
+    """
+    Class implementing the Blosum62 substitution matrix.
 
-    .. seealso:: https://en.wikipedia.org/wiki/BLOSUM """
+    .. seealso:: https://en.wikipedia.org/wiki/BLOSUM
+    """
 
     def __init__(self, gap_penalty: int = -8, gap_character: str = '-'):
         super(Blosum62, self).__init__(gap_penalty, gap_character)

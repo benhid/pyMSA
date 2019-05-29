@@ -1,11 +1,15 @@
 from typing import List
 
+from pymsa.core.msa import MSA
+
 
 def read_fasta_file_as_list_of_pairs(file_name: str) -> list:
-    """ Read a file in FASTA format as list of pairs (sequence id, sequence).
+    """
+    Read a file in FASTA format as list of pairs (sequence id, sequence).
 
     :param file_name: FASTA file.
-    :return: List of pairs. """
+    :return: List of pairs.
+    """
     list_of_pairs = []
     key = ''
     value = ''
@@ -19,15 +23,14 @@ def read_fasta_file_as_list_of_pairs(file_name: str) -> list:
                 value = ''
             else:
                 value += line.rstrip()
-    list_of_pairs.append((key, value))
-    file.close()
 
+    list_of_pairs.append((key, value))
     return list_of_pairs
 
 
-def print_alignment(aligned_sequences: List[str], sequences_id: List[str], cx_point: int = 100):
-    sub_sequences = [[]] * len(aligned_sequences)
-    for i, sequence in enumerate(aligned_sequences):
+def print_alignment(msa: MSA, cx_point: int = 100):
+    sub_sequences = [[]] * msa.number_of_sequences
+    for i, sequence in enumerate(msa.sequences):
         sub_sequences[i] = [sequence[i: i + cx_point] for i in range(0, len(sequence), cx_point)]
 
     for k in range(len(sub_sequences[0])):
@@ -51,9 +54,9 @@ def print_alignment(aligned_sequences: List[str], sequences_id: List[str], cx_po
                 elif set(column).issubset(['T', 'N', 'Q', 'M']):
                     colour_scheme[i] = 2
 
-        longest_id = len(max(sequences_id, key=len))
+        longest_id = len(max(msa.ids, key=len))
 
-        for sequence, id in zip(sequences, sequences_id):
+        for sequence, id in zip(sequences, msa.ids):
             print(id + ' ' * (longest_id - len(id)), end='\t', flush=True)
             for i in range(len(colour_scheme)):
                 if colour_scheme[i] == 1:
