@@ -1,6 +1,5 @@
-from pymsa import Entropy, PercentageOfNonGaps, PercentageOfTotallyConservedColumns, Star, SumOfPairs
+from pymsa import MSA, Entropy, PercentageOfNonGaps, PercentageOfTotallyConservedColumns, Star, SumOfPairs
 from pymsa import PAM250, Blosum62, FileMatrix
-from pymsa.core.msa import MSA
 from pymsa.util.fasta import print_alignment
 
 

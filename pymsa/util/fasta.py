@@ -1,5 +1,3 @@
-from typing import List
-
 from pymsa.core.msa import MSA
 
 
