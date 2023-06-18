@@ -18,9 +18,9 @@ class SubstitutionMatrix(ABC):
         :param char2: Second character.
         :return: The distance value from the scoring matrix.
         """
-        if char1 is self.gap_character and char2 is self.gap_character:
+        if char1 == self.gap_character and char2 == self.gap_character:
             distance = 1
-        elif char1 is self.gap_character or char2 is self.gap_character:
+        elif char1 == self.gap_character or char2 == self.gap_character:
             distance = self.gap_penalty
         else:
             matrix = self.get_distance_matrix()
